@@ -58,13 +58,42 @@ define archmngt::extract ($archive_file,
 					fail("packaging type $file_suffix is not yet supported.")
 				}
 			}
+			$segments = split($archive_file, '[://]')
+			case $segments[0] {
+				'http','https': {
+					$timestamp=time()
+					$tmp_file = "/tmp/puppet_download_$timestamp.$file_suffix"
+					wget::fetch { "fetch_archive_from_remote_$timestamp.$file_suffix":
+						source => "$archive_file",
+						destination => "$tmp_file",
+						before => Exec ["${archive_file}_extract"],
+					}
+					$file_to_extract = "$tmp_file"
+				}
+				default : {
+					$file_to_extract = $archive_file
+				}
+			}	
+			
 			exec {
 				"${archive_file}_extract" :
 					command =>
-					"$extract_command$extract_command_params_before_filename ${archive_file}$extract_command_params_after_filename",
+					"$extract_command$extract_command_params_before_filename ${file_to_extract}$extract_command_params_after_filename",
 					path => ["/bin", "/sbin", "/usr/bin"],
 					cwd => "${target_dir}",
 					require => $extract_requires,
+			}
+			case $segments[0] {
+				'http','https': {
+					file { "$tmp_file":
+						ensure => absent,					
+						require => Exec ["${archive_file}_extract"],
+					}
+				}
+				default : {
+					
+				}
+			
 			}
 		}
 		default : {
