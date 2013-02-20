@@ -10,3 +10,4 @@ project_page 'http://www.akquinet.de/java/entwicklungsinfrastrukturen.html'
 ## Add dependencies, if any:
 dependency 'puppetlabs/puppetlabs-stdlib', '>= 3.2.0'
 dependency 'liquidstate/puppet-wget', '>= 1.0.0'
+dependency 'akquinet/puppet-unzip', '>= 1.0.0'
