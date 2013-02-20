@@ -3,5 +3,5 @@ puppet-archmngt
 This is the puppet-archmngt module.
 
 If you want to extract from a zip archive you must include
-https://github.com/saheba/puppet-unzip.git and place an
+https://github.com/akquinet/puppet-unzip.git and place an
 "include unzip" or "class { "unzip" : }" in your recipe.  
