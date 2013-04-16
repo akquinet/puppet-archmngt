@@ -26,6 +26,7 @@
 #
 # [Remember: No empty lines between comments and class definition]
 define archmngt::extract ($archive_file,
+	$nocheckcertificate_if_https = false,
 	$target_dir,
 	$overwrite = false) {
 	$file_name_segments = split($archive_file, '[.]')
@@ -68,6 +69,8 @@ define archmngt::extract ($archive_file,
 						source => "$archive_file",
 						destination => "$tmp_file",
 						before => Exec["${archive_file}_extract"],
+						redownload => true,
+						nocheckcertificate => $nocheckcertificate_if_https,
 					}
 					$file_to_extract = "$tmp_file"					
 				}
