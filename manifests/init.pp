@@ -14,6 +14,9 @@
 # whether to overwrite existing files without prompt (prompts may cause puppet warnings or errors), default value is 
 # false, set this parameter to true if you are sure you do not overwrite anything important accidently in the [*target_dir*]
 #
+# [*archive_type*]
+# file suffix can be explicitly set through this variable, if download url does not end with .tar, .gz or .zip
+#
 # Actions:
 #
 # Requires:
@@ -28,9 +31,18 @@
 define archmngt::extract ($archive_file,
 	$nocheckcertificate_if_https = false,
 	$target_dir,
-	$overwrite = false) {
+	$overwrite = false,
+	$archive_type = undef) {
 	$file_name_segments = split($archive_file, '[.]')
-	$file_suffix = last_element($file_name_segments)
+	case $archive_type {
+	  undef: {
+	     $file_suffix = last_element($file_name_segments)	   
+	   }
+	   default: {
+	     $file_suffix = $archive_type
+	   }
+	}
+	
 	case $::operatingsystem {
 		/(?i:Debian|Ubuntu|RedHat|Centos|OEL)/ : {
 			case $file_suffix {
