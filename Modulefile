@@ -8,6 +8,6 @@ description 'this module helps to deal with archive files in puppet scripts'
 project_page 'http://www.akquinet.de/java/entwicklungsinfrastrukturen.html'
 
 ## Add dependencies, if any:
-dependency 'puppetlabs/puppetlabs-stdlib', '>= 3.2.0'
-dependency 'maestrodev/puppet-wget', '>= 1.3.1'
-dependency 'akquinet/puppet-unzip', '>= 1.0.0'
+dependency 'puppetlabs/stdlib', '>= 3.2.0'
+dependency 'maestrodev/wget', '>= 1.3.1'
+dependency 'akquinet/unzip', '>= 1.0.0'
