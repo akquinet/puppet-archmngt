@@ -46,8 +46,12 @@ define archmngt::extract ($archive_file,
 	case $::operatingsystem {
 		/(?i:Debian|Ubuntu|RedHat|Centos|OEL)/ : {
 			case $file_suffix {
-				'gz', 'tar' : {
-					$extract_command = "tar xf"
+				'gz', 'tar','bz2 : {
+					$bzoption = $file_suffix ? {
+						'bz2' => 'j',
+						default => '',
+					}
+					$extract_command = "tar x${bzoption}f"
 					$overwrite_param = $overwrite ? {
 						true => " --overwrite",
 						default => "",
